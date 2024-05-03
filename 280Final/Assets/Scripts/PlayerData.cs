@@ -16,6 +16,8 @@ public class PlayerData : MonoBehaviour
     //force variable for players jump
     public float jumpForce = 8f;
 
+    public bool onGround;
+
 
     // Start is called before the first frame update
     private void Awake()
@@ -27,7 +29,22 @@ public class PlayerData : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
-        playerRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position,transform.TransformDirection(Vector3.down),out hit,1.5f))
+        {
+            onGround = true;
+            Debug.Log("I am grounded");
+        }
+        else
+        {
+            onGround = false;
+            Debug.Log("I am not grounded");
+        }
+        if (onGround== true)
+        {
+            playerRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+        
     }
 
     public void OnMove(InputAction.CallbackContext context)
