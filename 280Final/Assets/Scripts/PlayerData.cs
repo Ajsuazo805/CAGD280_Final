@@ -13,6 +13,9 @@ public class PlayerData : MonoBehaviour
     //players movement speed
     public float speed = 1f;
 
+    //force variable for players jump
+    public float jumpForce = 8f;
+
 
     // Start is called before the first frame update
     private void Awake()
@@ -20,6 +23,11 @@ public class PlayerData : MonoBehaviour
         playerRigidbody = this.GetComponent<Rigidbody>();
         playerInputActions = new InputSystem();
         playerInputActions.Enable();
+    }
+
+    public void Jump(InputAction.CallbackContext context)
+    {
+        playerRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
     public void OnMove(InputAction.CallbackContext context)
