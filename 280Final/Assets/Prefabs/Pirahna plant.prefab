@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4716855137427931135}
+  - component: {fileID: -637132641623327041}
   m_Layer: 0
   m_Name: Pirahna plant
   m_TagString: Untagged
@@ -43,6 +44,26 @@ Transform:
   - {fileID: 109445207579647120}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-637132641623327041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140155707462250921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2675c8fea8b7db54586326f35243d6bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  topY: 4
+  bottomY: -3
+  risingSpeed: 3
+  fallingSpeed: 3
+  goingUp: 1
+  waiting: 0
+  waitTimeAtTop: 2.5
+  waitTimeAtBottom: 2.5
 --- !u!1 &1560813809467731989
 GameObject:
   m_ObjectHideFlags: 0
@@ -1125,8 +1146,8 @@ Transform:
   m_GameObject: {fileID: 8266119511265551705}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.224, y: -1.5208, z: 0}
-  m_LocalScale: {x: 0.30664277, y: 1.7524123, z: 0.30664277}
+  m_LocalPosition: {x: -4.224, y: -2.1281, z: 0}
+  m_LocalScale: {x: 0.30664277, y: 2.359546, z: 0.30664277}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4716855137427931135}
