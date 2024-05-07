@@ -59,6 +59,27 @@ public class PirahnaPlant : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        //make a local gameobject variable
+        GameObject other = collision.gameObject;
+        //do some stuff depending on what I just crashed into
+        switch (other.tag)
+        {
+            case "Player":
+                Debug.Log("Enemy collided with " + collision.rigidbody);
+                Destroy(this.gameObject);
+                //currently not implemented , but we could destroy the player here
+                break;
+            case "Laser":
+                Vector3 myVector = this.transform.position;
+                Quaternion myRotation = this.transform.rotation;
+                Destroy(this.gameObject);
+            default:
+                break;
+        }
+        //out of the switch
+    }
     IEnumerator Wait(float waitTime)
     {
         waiting = true;

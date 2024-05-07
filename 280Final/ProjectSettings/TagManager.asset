@@ -10,6 +10,8 @@ TagManager:
   - FireBall
   - IceBall
   - Enemy
+  - Brick
+  - Floor
   layers:
   - Default
   - TransparentFX

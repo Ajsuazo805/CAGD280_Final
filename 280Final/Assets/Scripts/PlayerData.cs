@@ -4,11 +4,31 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerData : MonoBehaviour
 {
+    //enum to have different playerstates
+    private enum PlayerState
+    {
+        Normal,
+        Fire,
+        Invincible,
+        Ice
+    }
+
+    //setting the player to a normal state
+    private PlayerState playerState = PlayerState.Normal;
+
+    //period where the player is safe from getting killed after going back to normal state
+    public float safePeriod;
+
+    //timer for the safePeriod 
+    private float safePeriodStart = -10f;
+
     //Players Rigidbody
     private Rigidbody playerRigidBody;
+
     //Input Actions System
     private InputSystem playerInputActions;
 
@@ -18,18 +38,35 @@ public class PlayerData : MonoBehaviour
     //force variable for players jump
     public float jumpForce = 8f;
 
-    public bool onGround;
+    //variable to check if we are on the ground
+    private bool onGround;
 
+    //checking to see if we are poweredUP
     private bool poweredUp = false;
 
+    //start time for power ups
     private float powerUpStart = -10f;
-    private int typeOfPowerUP = 0;
+
+    //timer for the invincibility power up
     public float invincibilityDuration;
 
+    // These are the 4 different kinds of player variants our player can change into when
+    // he equips the different kinds of power ups
     public GameObject defaultPlayer;
     public GameObject firePlayer;
     public GameObject starPlayer;
     public GameObject icePlayer;
+
+    public GameObject fireBall;
+    public GameObject iceBall;
+
+    private bool goingLeft = false;
+
+    // last shot from the player
+    private float lastShot = -10f;
+    //the delay for the shots being shot
+    public float shootDelay;
+
 
     // Start is called before the first frame update
     private void Awake()
@@ -43,7 +80,7 @@ public class PlayerData : MonoBehaviour
     public void Jump(InputAction.CallbackContext context)
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position,transform.TransformDirection(Vector3.down),out hit,1.5f))
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, 1.5f))
         {
             onGround = true;
             Debug.Log("I am grounded");
@@ -53,44 +90,92 @@ public class PlayerData : MonoBehaviour
             onGround = false;
             Debug.Log("I am not grounded");
         }
-        if (onGround== true)
+        if (onGround == true)
         {
             playerRigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
-        
+
     }
 
+    public void OnShoot(InputAction.CallbackContext context)
+    {
+        print("Shoot button was pressed");
+        if (lastShot + shootDelay < Time.time)
+        {
+            if (playerState == PlayerState.Ice)
+            {
+                Vector3 myVector3;
+                if (goingLeft)
+                {
+                    myVector3 = new Vector3(transform.position.x -0.5f, transform.position.y);
+                }
+                else
+                {
+                    myVector3 = new Vector3(transform.position.x + 0.5f, transform.position.y);
+                }
+                Instantiate(iceBall, myVector3, transform.rotation);
+                lastShot = Time.time;
+            }
+            else if (playerState == PlayerState.Fire)
+            {
+                Vector3 myVector3;
+                if (goingLeft)
+                {
+                    myVector3 = new Vector3(transform.position.x - 0.5f, transform.position.y);
+                }
+                else
+                {
+                    myVector3 = new Vector3(transform.position.x + 0.5f, transform.position.y);
+                }
+                Instantiate(fireBall, myVector3, transform.rotation);
+                lastShot = Time.time;
+            }            
+        }
+    }
     public void OnMove(InputAction.CallbackContext context)
     {
         Vector2 myVector = context.ReadValue<Vector2>();
-        playerRigidBody.transform.Translate(new Vector3(myVector.x, 0) * speed); 
+        if (myVector.x > 0)
+        {
+            goingLeft = false;
+        }
+        else if (myVector.x < 0)
+        {
+            goingLeft = true;
+        }
+        playerRigidBody.transform.Translate(new Vector3(myVector.x, 0) * speed);
+
     }
 
     private void FixedUpdate()
     {
-        
+
         Vector2 moveVector = playerInputActions.InGame.Move.ReadValue<Vector2>();
         playerRigidBody.transform.Translate(new Vector3(moveVector.x, 0) * speed);
     }
 
+    private void TransformPlayer(GameObject newPlayer)
+    {
+        Vector3 holdPos = this.gameObject.transform.position;
+        Quaternion holdRot = this.gameObject.transform.rotation;
+        this.gameObject.SetActive(false);
+        Destroy(this.gameObject);
+        GameObject tempObj = Instantiate(newPlayer,holdPos, holdRot);
+        
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
         GameObject other = collision.gameObject;
-        print("GameObject tag " + other.tag);
+        print("GameObject tag " + other.tag+ " current state =" +playerState);
         if (other.tag == ("FirePower"))
         {
+            other.gameObject.SetActive(false);
             Destroy(other.gameObject);
             poweredUp = true;
             powerUpStart = Time.time;
-            typeOfPowerUP = 1;
-            //GameObject newPlayer = Instantiate(firePlayer);
-            //newPlayer.transform.position = this.gameObject.transform.position;
-            //newPlayer.transform.rotation = this.gameObject.transform.rotation;
-            //newPlayer.SetActive(true);
-            Instantiate(firePlayer, this.gameObject.transform.position, this.gameObject.transform.rotation);
-            this.gameObject.SetActive(false);
-            
+            playerState = PlayerState.Fire;
+            TransformPlayer(firePlayer);
 
         }
         if (other.tag == ("StarPower"))
@@ -98,43 +183,48 @@ public class PlayerData : MonoBehaviour
             Destroy(other.gameObject);
             poweredUp = true;
             powerUpStart = Time.time;
-            typeOfPowerUP = 2;
-            
+            playerState = PlayerState.Invincible;
+            TransformPlayer(starPlayer);
+
         }
         if (other.tag == ("IcePower"))
         {
+            other.gameObject.SetActive(false);
             Destroy(other.gameObject);
             poweredUp = true;
             powerUpStart = Time.time;
-            typeOfPowerUP = 3;
-            
+            playerState = PlayerState.Ice;
+            TransformPlayer(icePlayer);
+
+
         }
         if (other.tag == ("Enemy"))
         {
-            if (typeOfPowerUP==1 || typeOfPowerUP==3)
+            if (playerState == PlayerState.Fire || playerState == PlayerState.Ice)
             {
                 poweredUp = false;
-                typeOfPowerUP = 0;
+                playerState = PlayerState.Normal;
+                safePeriodStart = Time.time;
             }
             else
             {
-                if (poweredUp && typeOfPowerUP == 2)
+                if (poweredUp && playerState == PlayerState.Invincible)
                 {
                     if (powerUpStart + invincibilityDuration < Time.time)
                     {
                         poweredUp = false;
-                        typeOfPowerUP = 0;
+                        playerState = PlayerState.Normal;
+                        TransformPlayer(defaultPlayer);
                     }
                     else
                     {
                         Destroy(other.gameObject);
                     }
-                    
+
                 }
-                if (poweredUp == false)
+                if (poweredUp == false && (safePeriodStart + safePeriod < Time.time))
                 {
                     SceneManager.LoadScene(1);
-
                 }
             }
         }

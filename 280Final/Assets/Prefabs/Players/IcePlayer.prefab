@@ -248,10 +248,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 701ffe7c974f29b42afb271945451e7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  safePeriod: 1
   speed: 0.09
   jumpForce: 8
   onGround: 0
-  invincibilityDuration: 30
+  invincibilityDuration: 10
   defaultPlayer: {fileID: 8365196947165825144, guid: 24d26136e7b9c4a48bec3cdc8daf2ffe, type: 3}
   firePlayer: {fileID: 9125016318604475965, guid: ba5e5762634e1114db6cb3f691a140f7, type: 3}
   starPlayer: {fileID: 8409872802619220016, guid: 28b72f35ac524a34380cd8fc1f1cd350, type: 3}
