@@ -9,6 +9,7 @@ TagManager:
   - StarPower
   - FireBall
   - IceBall
+  - Enemy
   layers:
   - Default
   - TransparentFX

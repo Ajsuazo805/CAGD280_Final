@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4716855137427931135}
   - component: {fileID: -637132641623327041}
+  - component: {fileID: 8249607694855086324}
   m_Layer: 0
   m_Name: Pirahna plant
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -64,6 +65,29 @@ MonoBehaviour:
   waiting: 0
   waitTimeAtTop: 2.5
   waitTimeAtBottom: 2.5
+--- !u!136 &8249607694855086324
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140155707462250921}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.09
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: -4.2, y: 0.06, z: 0}
 --- !u!1 &1560813809467731989
 GameObject:
   m_ObjectHideFlags: 0
