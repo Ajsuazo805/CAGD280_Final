@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 6035227573305700620}
   - component: {fileID: 8709950480665736266}
   - component: {fileID: 4879427886701753252}
+  - component: {fileID: -8224676090263988527}
   m_Layer: 0
   m_Name: IceBall
-  m_TagString: FireBall
+  m_TagString: IceBall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -105,3 +106,17 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-8224676090263988527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3746160727053581448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70d075c8e06520e4b8879c604ed98e86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0.5
+  maxBallTime: 3

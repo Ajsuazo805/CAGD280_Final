@@ -58,7 +58,7 @@ public class PirahnaPlant : MonoBehaviour
             }
         }
     }
-
+/*
     private void OnCollisionEnter(Collision collision)
     {
         //make a local gameobject variable
@@ -79,7 +79,7 @@ public class PirahnaPlant : MonoBehaviour
                 break;
         }
         //out of the switch
-    }
+    }*/
     IEnumerator Wait(float waitTime)
     {
         waiting = true;

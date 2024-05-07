@@ -8,6 +8,8 @@ MonoImporter:
   - firePlayer: {fileID: 9125016318604475965, guid: ba5e5762634e1114db6cb3f691a140f7, type: 3}
   - starPlayer: {fileID: 8409872802619220016, guid: 28b72f35ac524a34380cd8fc1f1cd350, type: 3}
   - icePlayer: {fileID: 3751516400520684243, guid: ff2b034f8ac42394b8d2c1aec2b076e0, type: 3}
+  - fireBall: {fileID: 818515307819952323, guid: 5ede5354b5401f54cb9eb898a56142f5, type: 3}
+  - iceBall: {fileID: 3746160727053581448, guid: ab9c07198e0c6094e861a01d54c57482, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
