@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -7,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class PlayerData : MonoBehaviour
 {
     //Players Rigidbody
-    private Rigidbody playerRigidbody;
+    private Rigidbody playerRigidBody;
     //Input Actions System
     private InputSystem playerInputActions;
 
@@ -25,13 +26,18 @@ public class PlayerData : MonoBehaviour
     private int typeOfPowerUP = 0;
     public float invincibilityDuration;
 
+    public GameObject defaultPlayer;
+    public GameObject firePlayer;
+    public GameObject starPlayer;
+    public GameObject icePlayer;
 
     // Start is called before the first frame update
     private void Awake()
     {
-        playerRigidbody = this.GetComponent<Rigidbody>();
+        playerRigidBody = this.GetComponent<Rigidbody>();
         playerInputActions = new InputSystem();
         playerInputActions.Enable();
+        defaultPlayer = this.gameObject;
     }
 
     public void Jump(InputAction.CallbackContext context)
@@ -49,7 +55,7 @@ public class PlayerData : MonoBehaviour
         }
         if (onGround== true)
         {
-            playerRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            playerRigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
         
     }
@@ -57,14 +63,14 @@ public class PlayerData : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         Vector2 myVector = context.ReadValue<Vector2>();
-        playerRigidbody.transform.Translate(new Vector3(myVector.x, 0) * speed); 
+        playerRigidBody.transform.Translate(new Vector3(myVector.x, 0) * speed); 
     }
 
     private void FixedUpdate()
     {
         
         Vector2 moveVector = playerInputActions.InGame.Move.ReadValue<Vector2>();
-        playerRigidbody.transform.Translate(new Vector3(moveVector.x, 0) * speed);
+        playerRigidBody.transform.Translate(new Vector3(moveVector.x, 0) * speed);
     }
 
 
@@ -78,6 +84,14 @@ public class PlayerData : MonoBehaviour
             poweredUp = true;
             powerUpStart = Time.time;
             typeOfPowerUP = 1;
+            //GameObject newPlayer = Instantiate(firePlayer);
+            //newPlayer.transform.position = this.gameObject.transform.position;
+            //newPlayer.transform.rotation = this.gameObject.transform.rotation;
+            //newPlayer.SetActive(true);
+            Instantiate(firePlayer, this.gameObject.transform.position, this.gameObject.transform.rotation);
+            this.gameObject.SetActive(false);
+            
+
         }
         if (other.tag == ("StarPower"))
         {
@@ -85,7 +99,7 @@ public class PlayerData : MonoBehaviour
             poweredUp = true;
             powerUpStart = Time.time;
             typeOfPowerUP = 2;
-            StartCoroutine(Blink());
+            
         }
         if (other.tag == ("IcePower"))
         {
@@ -93,6 +107,7 @@ public class PlayerData : MonoBehaviour
             poweredUp = true;
             powerUpStart = Time.time;
             typeOfPowerUP = 3;
+            
         }
         if (other.tag == ("Enemy"))
         {
@@ -103,35 +118,25 @@ public class PlayerData : MonoBehaviour
             }
             else
             {
-                if (poweredUp && (powerUpStart + invincibilityDuration < Time.time) && typeOfPowerUP == 2)
+                if (poweredUp && typeOfPowerUP == 2)
                 {
-                    poweredUp = false;
-                    typeOfPowerUP = 0;
+                    if (powerUpStart + invincibilityDuration < Time.time)
+                    {
+                        poweredUp = false;
+                        typeOfPowerUP = 0;
+                    }
+                    else
+                    {
+                        Destroy(other.gameObject);
+                    }
+                    
                 }
                 if (poweredUp == false)
                 {
-                    Destroy(this.gameObject);
                     SceneManager.LoadScene(1);
 
                 }
             }
         }
-    }
-
-    public IEnumerator Blink()
-    {
-        for (int index = 0; index < 30; index++)
-        {
-            if (index % 2 == 0)
-            {
-                GetComponent<MeshRenderer>().enabled = false;
-            }
-            else
-            {
-                GetComponent<MeshRenderer>().enabled = true;
-            }
-            yield return new WaitForSeconds(.1f);
-        }
-        GetComponent<MeshRenderer>().enabled = true;
     }
 }
