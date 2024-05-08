@@ -113,7 +113,8 @@ public class PlayerData : MonoBehaviour
                 {
                     myVector3 = new Vector3(transform.position.x + 0.5f, transform.position.y);
                 }
-                Instantiate(iceBall, myVector3, transform.rotation);
+                GameObject tempObj = Instantiate(iceBall, myVector3, transform.rotation);
+                tempObj.GetComponent<Ball>().SetGoingLeft(goingLeft);
                 lastShot = Time.time;
             }
             else if (playerState == PlayerState.Fire)
@@ -127,7 +128,8 @@ public class PlayerData : MonoBehaviour
                 {
                     myVector3 = new Vector3(transform.position.x + 0.5f, transform.position.y);
                 }
-                Instantiate(fireBall, myVector3, transform.rotation);
+                GameObject tempObj = Instantiate(fireBall, myVector3, transform.rotation);
+                tempObj.GetComponent<Ball>().SetGoingLeft(goingLeft);
                 lastShot = Time.time;
             }            
         }
