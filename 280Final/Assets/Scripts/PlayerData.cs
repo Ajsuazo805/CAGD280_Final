@@ -9,7 +9,7 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 public class PlayerData : MonoBehaviour
 {
     //enum to have different playerstates
-    private enum PlayerState
+    protected enum PlayerState
     {
         Normal,
         Fire,
@@ -18,7 +18,7 @@ public class PlayerData : MonoBehaviour
     }
 
     //setting the player to a normal state
-    private PlayerState playerState = PlayerState.Normal;
+    protected PlayerState playerState = PlayerState.Normal;
 
     //period where the player is safe from getting killed after going back to normal state
     public float safePeriod;
@@ -42,10 +42,10 @@ public class PlayerData : MonoBehaviour
     private bool onGround;
 
     //checking to see if we are poweredUP
-    private bool poweredUp = false;
+    protected bool poweredUp = false;
 
     //start time for power ups
-    private float powerUpStart = -10f;
+    protected float powerUpStart = -10f;
 
     //timer for the invincibility power up
     public float invincibilityDuration;
@@ -74,7 +74,7 @@ public class PlayerData : MonoBehaviour
         playerRigidBody = this.GetComponent<Rigidbody>();
         playerInputActions = new InputSystem();
         playerInputActions.Enable();
-        defaultPlayer = this.gameObject;
+        //defaultPlayer = this.gameObject;
     }
 
     public void Jump(InputAction.CallbackContext context)
@@ -107,7 +107,7 @@ public class PlayerData : MonoBehaviour
                 Vector3 myVector3;
                 if (goingLeft)
                 {
-                    myVector3 = new Vector3(transform.position.x -0.5f, transform.position.y);
+                    myVector3 = new Vector3(transform.position.x - 0.5f, transform.position.y);
                 }
                 else
                 {
@@ -131,11 +131,28 @@ public class PlayerData : MonoBehaviour
                 GameObject tempObj = Instantiate(fireBall, myVector3, transform.rotation);
                 tempObj.GetComponent<Ball>().SetGoingLeft(goingLeft);
                 lastShot = Time.time;
-            }            
+            }
         }
     }
     public void OnMove(InputAction.CallbackContext context)
     {
+        //Debug.Log("In PlayerData OnMove.  PoweredUp = " + poweredUp + " playerState = " + playerState);
+        if (this.gameObject.activeInHierarchy == false)
+        {
+            // just return as this is no longer active
+            return;
+        }
+
+        if (poweredUp && playerState == PlayerState.Invincible && (powerUpStart + invincibilityDuration < Time.time))
+        {
+            Debug.Log("Time to reset player back to normal.");
+            //poweredUp = false;
+            //playerState = PlayerState.Normal;
+            //typeOfPowerUP = 0;
+            transformPlayer(PlayerState.Normal);
+            return;
+        }
+
         Vector2 myVector = context.ReadValue<Vector2>();
         if (myVector.x > 0)
         {
@@ -151,62 +168,129 @@ public class PlayerData : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //Debug.Log("In PlayerData FixedUpdate.  PoweredUp = " + poweredUp + " playerState = " + playerState);
+        if (this.gameObject.activeInHierarchy == false)
+        {
+            // just return as this is no longer active
+            return;
+        }
 
+        if (poweredUp && playerState == PlayerState.Invincible && (powerUpStart + invincibilityDuration < Time.time))
+        {
+            Debug.Log("Time to reset player back to normal.");
+            //poweredUp = false;
+            //playerState = PlayerState.Normal;
+            //typeOfPowerUP = 0;
+            transformPlayer(PlayerState.Normal);
+            return;
+        }
+
+        // check if going left or not
         Vector2 moveVector = playerInputActions.InGame.Move.ReadValue<Vector2>();
+        if (moveVector.x > 0)
+        {
+            goingLeft = false;
+        }
+        else if (moveVector.x < 0)
+        {
+            goingLeft = true;
+        }
+
         playerRigidBody.transform.Translate(new Vector3(moveVector.x, 0) * speed);
     }
 
-    private void TransformPlayer(GameObject newPlayer)
+    private void transformPlayer(PlayerState state)
     {
+        Debug.Log("transformPlayer switching player to " + state);
         Vector3 holdPos = this.gameObject.transform.position;
         Quaternion holdRot = this.gameObject.transform.rotation;
         this.gameObject.SetActive(false);
         Destroy(this.gameObject);
-        GameObject tempObj = Instantiate(newPlayer,holdPos, holdRot);
-        
+        GameObject tmpObj = null;
+        switch (state)
+        {
+            case PlayerState.Normal:
+                tmpObj = Instantiate(defaultPlayer, holdPos, holdRot);
+                tmpObj.GetComponent<PlayerData>().poweredUp = false;
+                tmpObj.GetComponent<PlayerData>().safePeriodStart = Time.time;
+                break;
+
+            case PlayerState.Fire:
+                tmpObj = Instantiate(firePlayer, holdPos, holdRot);
+                tmpObj.GetComponent<PlayerData>().poweredUp = true;
+                tmpObj.GetComponent<PlayerData>().powerUpStart = Time.time;
+                break;
+
+            case PlayerState.Invincible:
+                tmpObj = Instantiate(starPlayer, holdPos, holdRot);
+                tmpObj.GetComponent<PlayerData>().poweredUp = true;
+                tmpObj.GetComponent<PlayerData>().powerUpStart = Time.time;
+                break;
+
+            case PlayerState.Ice:
+                tmpObj = Instantiate(icePlayer, holdPos, holdRot);
+                tmpObj.GetComponent<PlayerData>().poweredUp = true;
+                tmpObj.GetComponent<PlayerData>().powerUpStart = Time.time;
+                break;
+
+            default:
+                Debug.LogError("Invalid PlayerState passed to transformPlayer.");
+                break;
+
+        }
+        tmpObj.GetComponent<PlayerData>().playerState = state;
+        //this.gameObject.SetActive(false);
+        //Destroy(this.gameObject);
     }
+
 
     private void OnCollisionEnter(Collision collision)
     {
         GameObject other = collision.gameObject;
-        print("GameObject tag " + other.tag+ " current state =" +playerState);
+        //print("GameObject tag " + other.tag + " current state = " + playerState + " GameObject active = " + other.activeInHierarchy);
+        if (other.activeInHierarchy == false)
+        {
+            // just return as what we collided with is no longer active
+            return;
+        }
+
         if (other.tag == ("FirePower"))
         {
-            other.gameObject.SetActive(false);
+            //            other.setActive(false);
+            other.SetActive(false);
             Destroy(other.gameObject);
-            poweredUp = true;
-            powerUpStart = Time.time;
-            playerState = PlayerState.Fire;
-            TransformPlayer(firePlayer);
-
+            //poweredUp = true;
+            //powerUpStart = Time.time;
+            //playerState = PlayerState.Fire;
+            transformPlayer(PlayerState.Fire);
         }
         if (other.tag == ("StarPower"))
         {
+            other.SetActive(false);
             Destroy(other.gameObject);
-            poweredUp = true;
-            powerUpStart = Time.time;
-            playerState = PlayerState.Invincible;
-            TransformPlayer(starPlayer);
-
+            //poweredUp = true;
+            //powerUpStart = Time.time;
+            //playerState = PlayerState.Invincible;
+            transformPlayer(PlayerState.Invincible);
         }
         if (other.tag == ("IcePower"))
         {
-            other.gameObject.SetActive(false);
+            other.SetActive(false);
             Destroy(other.gameObject);
-            poweredUp = true;
-            powerUpStart = Time.time;
-            playerState = PlayerState.Ice;
-            TransformPlayer(icePlayer);
-
+            //poweredUp = true;
+            //powerUpStart = Time.time;
+            //playerState = PlayerState.Ice;
+            transformPlayer(PlayerState.Ice);
 
         }
         if (other.tag == ("Enemy"))
         {
             if (playerState == PlayerState.Fire || playerState == PlayerState.Ice)
             {
-                poweredUp = false;
-                playerState = PlayerState.Normal;
-                safePeriodStart = Time.time;
+                //poweredUp = false;
+                //playerState = PlayerState.Normal;
+                //safePeriodStart = Time.time;
+                transformPlayer(PlayerState.Normal);
             }
             else
             {
@@ -214,9 +298,9 @@ public class PlayerData : MonoBehaviour
                 {
                     if (powerUpStart + invincibilityDuration < Time.time)
                     {
-                        poweredUp = false;
-                        playerState = PlayerState.Normal;
-                        TransformPlayer(defaultPlayer);
+                        //poweredUp = false;
+                        //playerState = PlayerState.Normal;
+                        transformPlayer(PlayerState.Normal);
                     }
                     else
                     {

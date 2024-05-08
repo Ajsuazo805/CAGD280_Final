@@ -12,6 +12,7 @@ TagManager:
   - Enemy
   - Brick
   - Floor
+  - Magic Box
   layers:
   - Default
   - TransparentFX

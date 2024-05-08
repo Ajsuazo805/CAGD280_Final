@@ -365,7 +365,7 @@ GameObject:
   - component: {fileID: 7161581770205501992}
   m_Layer: 0
   m_Name: StarPlayer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -495,12 +495,14 @@ MonoBehaviour:
   safePeriod: 1
   speed: 0.09
   jumpForce: 8
-  onGround: 0
   invincibilityDuration: 10
   defaultPlayer: {fileID: 8365196947165825144, guid: 24d26136e7b9c4a48bec3cdc8daf2ffe, type: 3}
   firePlayer: {fileID: 9125016318604475965, guid: ba5e5762634e1114db6cb3f691a140f7, type: 3}
   starPlayer: {fileID: 8409872802619220016}
   icePlayer: {fileID: 3751516400520684243, guid: ff2b034f8ac42394b8d2c1aec2b076e0, type: 3}
+  fireBall: {fileID: 818515307819952323, guid: 5ede5354b5401f54cb9eb898a56142f5, type: 3}
+  iceBall: {fileID: 3746160727053581448, guid: ab9c07198e0c6094e861a01d54c57482, type: 3}
+  shootDelay: 1.5
 --- !u!114 &7161581770205501992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -558,6 +560,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 4c15f96d-1946-4499-8ebb-8ca2b3875740
     m_ActionName: In Game/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3627264005517016471}
+        m_TargetAssemblyTypeName: PlayerData, Assembly-CSharp
+        m_MethodName: OnShoot
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 36045911-28af-42ad-a563-f24fa40acd3e
+    m_ActionName: In Game/Fire[/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: In Game
