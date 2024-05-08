@@ -65,6 +65,7 @@ MonoBehaviour:
   waiting: 0
   waitTimeAtTop: 2.5
   waitTimeAtBottom: 2.5
+  freezeTime: 3
 --- !u!136 &8249607694855086324
 CapsuleCollider:
   m_ObjectHideFlags: 0

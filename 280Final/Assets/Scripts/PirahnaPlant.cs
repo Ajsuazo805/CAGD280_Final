@@ -15,15 +15,25 @@ public class PirahnaPlant : MonoBehaviour
 
     public float waitTimeAtTop = 4f;
     public float waitTimeAtBottom = 2f;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-     
+
+    public float freezeTime;
+    private bool frozen = false;
+    private float freezeStart = -10f;
+
     // Update is called once per frame
     void Update()
     {
+        if (frozen)
+        {
+            if (freezeStart + freezeTime > Time.time)
+            {
+                return;
+            }
+            else
+            {
+                frozen = false;
+            }
+        }
         //check to see if the object is waiting before moving 
         if (!waiting)
         {
@@ -58,7 +68,7 @@ public class PirahnaPlant : MonoBehaviour
             }
         }
     }
-/*
+
     private void OnCollisionEnter(Collision collision)
     {
         //make a local gameobject variable
@@ -66,20 +76,28 @@ public class PirahnaPlant : MonoBehaviour
         //do some stuff depending on what I just crashed into
         switch (other.tag)
         {
-            case "Player":
-                Debug.Log("Enemy collided with " + collision.rigidbody);
+            case "FireBall":
+                Debug.Log("Enemy collided with a fireball");
+                this.gameObject.SetActive(false);
                 Destroy(this.gameObject);
-                //currently not implemented , but we could destroy the player here
+                other.gameObject.SetActive(false);
+                Destroy(other.gameObject);
                 break;
-            case "Laser":
-                Vector3 myVector = this.transform.position;
-                Quaternion myRotation = this.transform.rotation;
-                Destroy(this.gameObject);
+            case "IceBall":
+                Debug.Log("Enemy collided with an iceball");
+                other.gameObject.SetActive(false);
+                Destroy(other.gameObject);
+                frozen = true;
+                freezeStart = Time.time;
+                break;
+
             default:
+                // do nothing here, it is probably a player and that is handled in player code
                 break;
         }
         //out of the switch
-    }*/
+    }
+
     IEnumerator Wait(float waitTime)
     {
         waiting = true;
