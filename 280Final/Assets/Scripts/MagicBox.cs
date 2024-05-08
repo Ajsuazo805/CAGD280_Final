@@ -8,6 +8,9 @@ public class MagicBox : MonoBehaviour
     public GameObject ice;
     public GameObject star;
 
+    private int currentPow = 0;
+    private float lastDrop = -10f;
+    public float dropDelay;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,19 +25,25 @@ public class MagicBox : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("Entering Magic Box on collision");
         GameObject other = collision.gameObject;
         if (other.tag==("Player"))
         {
+            Debug.Log("Magic Box collided with "+ other.gameObject);
+            if (lastDrop + dropDelay > Time.time)
+            {
+                Debug.Log("Magic Box not ready yet. lastdrop = " + lastDrop + " dropdelay = " + dropDelay);
+                return;
+            }
             Vector3 holdPos = this.gameObject.transform.position;
             Quaternion holdRot = this.gameObject.transform.rotation;
-            this.gameObject.SetActive(false);
-            Destroy(this.gameObject);
-            int pick = Random.Range(0, 3);
-            if (pick == 0)
+            //this.gameObject.SetActive(false);
+            //Destroy(this.gameObject);
+            if (currentPow == 0)
             {
                 Instantiate(fire, holdPos, holdRot);
             }
-            else if (pick == 1)
+            else if (currentPow == 1)
             {
                 Instantiate(ice, holdPos, holdRot);
             }
@@ -42,6 +51,12 @@ public class MagicBox : MonoBehaviour
             {
                 Instantiate(star, holdPos, holdRot);
             }
+            currentPow++;
+            if (currentPow > 2)
+            {
+                currentPow = 0;
+            }
+            lastDrop = Time.time;
         }
     }
 }

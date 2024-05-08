@@ -202,6 +202,10 @@ public class PlayerData : MonoBehaviour
     private void transformPlayer(PlayerState state)
     {
         Debug.Log("transformPlayer switching player to " + state);
+        if (playerState==state)
+        {
+            return;
+        }
         Vector3 holdPos = this.gameObject.transform.position;
         Quaternion holdRot = this.gameObject.transform.rotation;
         this.gameObject.SetActive(false);

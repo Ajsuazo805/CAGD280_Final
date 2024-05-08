@@ -529,9 +529,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b94da62135c4a64a9b1a2da89af0fb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fire: {fileID: 8789117429164580416, guid: 0a7e722acc469b04682817df7f6c029b, type: 3}
+  fire: {fileID: 7027947962156438129, guid: 02641d4c22fcf8640a0d73be53ad302d, type: 3}
   ice: {fileID: 7726866112615140898, guid: 42fa4c4079145b2448bcf7b741509cba, type: 3}
   star: {fileID: 5626281786458635446, guid: 1f9b12c94c677fa4c9915960d6437429, type: 3}
+  dropDelay: 3
 --- !u!1001 &265004769
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2040,6 +2041,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1123731724122696209, guid: 24d26136e7b9c4a48bec3cdc8daf2ffe, type: 3}
+      propertyPath: fireBall
+      value: 
+      objectReference: {fileID: 8827491425893053303, guid: b2a0a92a8665e1d48adc533b6f337416, type: 3}
     - target: {fileID: 1625175026754082890, guid: 24d26136e7b9c4a48bec3cdc8daf2ffe, type: 3}
       propertyPath: m_ActionEvents.Array.size
       value: 3
