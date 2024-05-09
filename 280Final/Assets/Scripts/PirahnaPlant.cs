@@ -1,23 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * Author: [Suazo, Angel]
+ * Last Updated: [05/09/2024]
+ * [Script that handles all of the pirahna enemys movement and collision]
+ */
 public class PirahnaPlant : MonoBehaviour
 {
+    // max and min values for enemy movement on the y
     public float topY;
     public float bottomY;
 
+    //speed for going up
     public float risingSpeed;
+
+    //speed for fallin
     public float fallingSpeed;
 
+    //checks to see if we are going up and waiting
     public bool goingUp = true;
     public bool waiting = false;
 
+    //timers for the waiting
     public float waitTimeAtTop = 4f;
     public float waitTimeAtBottom = 2f;
 
+   //timer for how long enemy will be frozen
     public float freezeTime;
+
+    //checks to see if we are frozen
     private bool frozen = false;
+
+    //timer to start the freeze
     private float freezeStart = -10f;
 
     // Update is called once per frame

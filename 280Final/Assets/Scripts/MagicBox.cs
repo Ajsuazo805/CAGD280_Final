@@ -1,15 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * Author: [Suazo, Angel]
+ * Last Updated: [05/09/2024]
+ * [Script that handles everything for the magic box gameobject]
+ */
 public class MagicBox : MonoBehaviour
 {
+    //power up prefabs
     public GameObject fire;
     public GameObject ice;
     public GameObject star;
 
+    // int to show which prefab we want to spawn
     private int currentPow = 0;
+
+    //timer to remember when we started to drop a prefab
     private float lastDrop = -10f;
+
+    //delay for the power ups to not drop simultaniously
     public float dropDelay;
     // Start is called before the first frame update
     void Start()

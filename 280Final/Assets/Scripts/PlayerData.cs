@@ -6,6 +6,11 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
+/*
+ * Author: [Suazo, Angel]
+ * Last Updated: [05/09/2024]
+ * [Script that handles everything for the player data]
+ */
 public class PlayerData : MonoBehaviour
 {
     //enum to have different playerstates
@@ -146,9 +151,6 @@ public class PlayerData : MonoBehaviour
         if (poweredUp && playerState == PlayerState.Invincible && (powerUpStart + invincibilityDuration < Time.time))
         {
             Debug.Log("Time to reset player back to normal.");
-            //poweredUp = false;
-            //playerState = PlayerState.Normal;
-            //typeOfPowerUP = 0;
             transformPlayer(PlayerState.Normal);
             return;
         }
@@ -178,9 +180,6 @@ public class PlayerData : MonoBehaviour
         if (poweredUp && playerState == PlayerState.Invincible && (powerUpStart + invincibilityDuration < Time.time))
         {
             Debug.Log("Time to reset player back to normal.");
-            //poweredUp = false;
-            //playerState = PlayerState.Normal;
-            //typeOfPowerUP = 0;
             transformPlayer(PlayerState.Normal);
             return;
         }
@@ -243,8 +242,7 @@ public class PlayerData : MonoBehaviour
 
         }
         tmpObj.GetComponent<PlayerData>().playerState = state;
-        //this.gameObject.SetActive(false);
-        //Destroy(this.gameObject);
+
     }
 
 
@@ -260,30 +258,21 @@ public class PlayerData : MonoBehaviour
 
         if (other.tag == ("FirePower"))
         {
-            //            other.setActive(false);
             other.SetActive(false);
             Destroy(other.gameObject);
-            //poweredUp = true;
-            //powerUpStart = Time.time;
-            //playerState = PlayerState.Fire;
+
             transformPlayer(PlayerState.Fire);
         }
         if (other.tag == ("StarPower"))
         {
             other.SetActive(false);
             Destroy(other.gameObject);
-            //poweredUp = true;
-            //powerUpStart = Time.time;
-            //playerState = PlayerState.Invincible;
             transformPlayer(PlayerState.Invincible);
         }
         if (other.tag == ("IcePower"))
         {
             other.SetActive(false);
             Destroy(other.gameObject);
-            //poweredUp = true;
-            //powerUpStart = Time.time;
-            //playerState = PlayerState.Ice;
             transformPlayer(PlayerState.Ice);
 
         }
@@ -291,9 +280,6 @@ public class PlayerData : MonoBehaviour
         {
             if (playerState == PlayerState.Fire || playerState == PlayerState.Ice)
             {
-                //poweredUp = false;
-                //playerState = PlayerState.Normal;
-                //safePeriodStart = Time.time;
                 transformPlayer(PlayerState.Normal);
             }
             else
@@ -302,8 +288,6 @@ public class PlayerData : MonoBehaviour
                 {
                     if (powerUpStart + invincibilityDuration < Time.time)
                     {
-                        //poweredUp = false;
-                        //playerState = PlayerState.Normal;
                         transformPlayer(PlayerState.Normal);
                     }
                     else
