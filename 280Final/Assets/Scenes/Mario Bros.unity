@@ -304,7 +304,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5288881503388740902, guid: 5a91c721aa705ef45bbf3eb672e8c98c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.25
+      value: 4.2199993
       objectReference: {fileID: 0}
     - target: {fileID: 5288881503388740902, guid: 5a91c721aa705ef45bbf3eb672e8c98c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -547,7 +547,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5288881503388740902, guid: 5a91c721aa705ef45bbf3eb672e8c98c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.2500014
+      value: 1.220001
       objectReference: {fileID: 0}
     - target: {fileID: 5288881503388740902, guid: 5a91c721aa705ef45bbf3eb672e8c98c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -609,7 +609,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5288881503388740902, guid: 5a91c721aa705ef45bbf3eb672e8c98c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.2500005
+      value: 2.22
       objectReference: {fileID: 0}
     - target: {fileID: 5288881503388740902, guid: 5a91c721aa705ef45bbf3eb672e8c98c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -922,7 +922,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5288881503388740902, guid: 5a91c721aa705ef45bbf3eb672e8c98c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.2500005
+      value: 3.22
       objectReference: {fileID: 0}
     - target: {fileID: 5288881503388740902, guid: 5a91c721aa705ef45bbf3eb672e8c98c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1102,7 +1102,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5288881503388740902, guid: 5a91c721aa705ef45bbf3eb672e8c98c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.25000143
+      value: 0.22000098
       objectReference: {fileID: 0}
     - target: {fileID: 5288881503388740902, guid: 5a91c721aa705ef45bbf3eb672e8c98c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1927,7 +1927,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1099076476826294255, guid: 24d26136e7b9c4a48bec3cdc8daf2ffe, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.65
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 1123731724122696209, guid: 24d26136e7b9c4a48bec3cdc8daf2ffe, type: 3}
       propertyPath: fireBall
